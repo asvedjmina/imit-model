@@ -3,7 +3,20 @@
 
 ### Features
 
-* **main:** make course structure ([90cd60c](github.com/eakarpova/2026-1--study--simulation-modeling/commits/90cd60cae6b0b5a74939fcfebd274deea6d09388))
+## [2.0.0] - 2026-02-28
+
+### Added
+- Проект DrWatson `lab_02_models` для лабораторной работы №2
+- Литературный Julia-скрипт `sir_ode_literate.jl` (модель SIR)
+- Литературный Julia-скрипт `lv_ode_literate.jl` (модель Лотки-Вольтерры)
+- Генерация производных форматов через Literate.jl (.jl, .ipynb, .qmd)
+- Выполненные Jupyter notebooks для обеих моделей
+- Анализ чувствительности к параметрам (SIR и LV)
+- Отчёт по лабораторной работе №2 (Quarto, PDF, DOCX)
+- Презентация по лабораторной работе №2 (Beamer, reveal.js)
+
+### Changed
+- Обновлён bib-файл: добавлены ссылки на SIR, LV, Literate.jl, DrWatson
 
 
 
