@@ -1,0 +1,181 @@
+---
+title: "Модель Daisyworld: агентное моделирование"
+description: "Реализация и визуализация агентной модели Daisyworld на Julia с помощью Agents.jl"
+lang: ru-RU
+jupyter: julia-1.12
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: false
+execute:
+  cache: true
+---
+
+# Модель Daisyworld: агентное моделирование
+
+Данный скрипт реализует модель Daisyworld — классическую агентную модель,
+предложенную Джеймсом Лавлоком и Эндрю Уотсоном для иллюстрации
+гипотезы Геи. Модель демонстрирует, как простые агенты (маргаритки)
+с различным альбедо способны саморегулировать глобальную температуру планеты.
+
+## Теоретические основы
+
+### Гипотеза Геи
+
+Гипотеза Геи рассматривает планету как единую саморегулирующуюся систему,
+включающую как живые, так и неживые части. Модель Daisyworld является
+упрощённой демонстрацией этого принципа.
+
+### Описание модели
+
+На двумерной сетке 30×30 с периодическими границами произрастают маргаритки
+двух типов — чёрные и белые. Их альбедо различается:
+
+| Тип маргаритки | Альбедо | Эффект на температуру |
+|----------------|---------|----------------------|
+| Чёрная         | 0.25    | Поглощает свет, нагревает |
+| Белая          | 0.75    | Отражает свет, охлаждает  |
+| Пустая почва   | 0.40    | Нейтральный эффект        |
+
+### Динамика
+
+- Для каждой клетки рассчитывается локальная температура
+- Маргаритки размножаются с вероятностью, зависящей от температуры
+- Агенты стареют и умирают после определённого возраста
+- Температура диффундирует между клетками
+
+## Подключение пакетов
+
+```{julia}
+using DrWatson
+@quickactivate "lab_03_models"
+using Agents
+using DataFrames
+using CairoMakie
+import StatsBase
+using Random
+```
+
+## Загрузка модели Daisyworld
+
+Основной код модели находится в `src/daisyworld.jl`.
+Он определяет тип агента `Daisy`, функции шага модели
+и функцию инициализации `daisyworld()`.
+
+```{julia}
+include(srcdir("daisyworld.jl"))
+```
+
+## Создание и визуализация модели
+
+### Инициализация
+
+Создаём модель с параметрами по умолчанию:
+сетка 30×30, 20% белых и 20% чёрных маргариток,
+солнечная светимость 1.0.
+
+```{julia}
+model = daisyworld()
+```
+
+### Визуализация начального состояния
+
+Построим тепловую карту температуры поверхности.
+Маргаритки отображаются черно-белыми в соответствии с их видом.
+
+```{julia}
+daisycolor(a::Daisy) = a.breed
+
+plotkwargs = (
+    agent_color=daisycolor, agent_size = 20, agent_marker = '*',
+    heatarray = :temperature,
+    heatkwargs = (colorrange = (-20, 60),),
+)
+
+plt1, _ = abmplot(model; plotkwargs...)
+```
+
+### Состояние после 5 шагов
+
+```{julia}
+step!(model, 5)
+plt2, _ = abmplot(model; heatarray = model.temperature,
+    plotkwargs...)
+```
+
+### Состояние после 45 шагов
+
+```{julia}
+step!(model, 40)
+plt3, _ = abmplot(model; heatarray = model.temperature,
+    plotkwargs...)
+```
+
+## Динамика числа маргариток
+
+Построим график изменения числа маргариток в зависимости от модельного времени.
+
+```{julia}
+black(a) = a.breed == :black
+white(a) = a.breed == :white
+adata = [(black, count), (white, count)]
+
+model2 = daisyworld(; solar_luminosity = 1.0)
+
+agent_df, model_df = run!(model2, 1000; adata)
+figure_count = Figure(size = (600, 400));
+
+ax = figure_count[1, 1] = Axis(figure_count, xlabel = "tick", ylabel = "daisy count")
+blackl = lines!(ax, agent_df[!, :time], agent_df[!, :count_black],
+    color = :black)
+whitel = lines!(ax, agent_df[!, :time], agent_df[!, :count_white],
+    color = :orange)
+Legend(figure_count[1, 2], [blackl, whitel], ["black", "white"], labelsize = 12)
+figure_count
+```
+
+## Динамика модели (ramp-сценарий)
+
+Построим комплексный график изменения числа маргариток, температуры
+и светимости в зависимости от модельного времени.
+В ramp-сценарии светимость увеличивается в период 200–400 тиков,
+а затем уменьшается в период 500–750 тиков.
+
+```{julia}
+model3 = daisyworld(solar_luminosity = 1.0, scenario = :ramp)
+
+temperature(model) = StatsBase.mean(model.temperature)
+mdata = [temperature, :solar_luminosity]
+
+agent_df3, model_df3 = run!(model3, 1000; adata = adata, mdata = mdata)
+
+figure_lum = CairoMakie.Figure(size = (600, 600));
+ax1 = figure_lum[1, 1] = Axis(figure_lum, ylabel = "daisy count")
+blackl3 = lines!(ax1, agent_df3[!, :time], agent_df3[!, :count_black],
+    color = :red)
+whitel3 = lines!(ax1, agent_df3[!, :time], agent_df3[!, :count_white],
+    color = :blue)
+figure_lum[1, 2] = Legend(figure_lum, [blackl3, whitel3], ["black", "white"])
+
+ax2 = figure_lum[2, 1] = Axis(figure_lum, ylabel = "temperature")
+ax3 = figure_lum[3, 1] = Axis(figure_lum, xlabel = "tick", ylabel = "luminosity")
+lines!(ax2, model_df3[!, :time], model_df3[!, :temperature], color = :red)
+lines!(ax3, model_df3[!, :time], model_df3[!, :solar_luminosity], color = :red)
+for ax in (ax1, ax2); ax.xticklabelsvisible = false; end
+figure_lum
+```
+
+## Выводы
+
+Модель Daisyworld демонстрирует:
+
+1. **Саморегуляция**: маргаритки поддерживают температуру планеты
+   в благоприятном диапазоне за счёт обратной связи через альбедо.
+2. **Эмерджентное поведение**: глобальная стабилизация температуры
+   возникает из локальных взаимодействий агентов.
+3. **Устойчивость**: при умеренных возмущениях светимости система
+   восстанавливает температурный баланс.
+4. **Пределы устойчивости**: при слишком сильном воздействии
+   маргаритки не могут компенсировать изменения и вымирают.
+
