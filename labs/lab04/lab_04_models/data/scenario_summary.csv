@@ -1,0 +1,5 @@
+scenario,peak_infected,peak_fraction,peak_time,final_recovered,deaths
+baseline,3000,1.0,20,63,390
+heterogeneous_beta,2999,0.9996666666666667,21,108,392
+fast_migration,3000,1.0,18,120,412
+slow_detection,3000,1.0,21,21,433

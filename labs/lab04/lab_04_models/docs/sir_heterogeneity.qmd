@@ -1,0 +1,66 @@
+---
+title: "SIR model: heterogeneity effect"
+description: "Heterogeneity study for the graph-based SIR model"
+lang: ru-RU
+jupyter: julia-1.12
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: false
+execute:
+  cache: true
+---
+
+# SIR model: heterogeneity effect
+
+Этот literate-скрипт исследует влияние неоднородных коэффициентов заражения
+по городам. Сравниваются однородный и неоднородный режимы передачи инфекции.
+
+```{julia}
+using DrWatson
+@quickactivate "lab_04_models"
+
+ENV["GKSwstype"] = "100"
+
+include(srcdir("sir_analysis.jl"))
+```
+
+## Сравнение глобальной динамики
+
+Функция `heterogeneity_experiment()` запускает два сценария:
+- однородный `beta`;
+- неоднородный `beta` по трём городам.
+
+```{julia}
+base_global, base_city, hetero_global, hetero_city, summary_df, city_summary =
+    heterogeneity_experiment()
+
+summary_df
+
+global_plot = plot_heterogeneity_global(base_global, hetero_global)
+global_plot
+```
+
+## Динамика по городам
+
+Здесь нас интересует, как распределяется инфекционная нагрузка между городами.
+
+```{julia}
+city_plot = plot_city_dynamics(hetero_city; title = "Неоднородный beta по городам")
+city_plot
+```
+
+## Составной график
+
+```{julia}
+combined_plot = plot(global_plot, city_plot; layout = (2, 1), size = (900, 800))
+combined_plot
+```
+
+## Выводы
+
+1. Неоднородные значения `beta` меняют распределение нагрузки между городами.
+2. Из-за миграции различия не изолируются в одном городе.
+3. Суммарная смертность может даже вырасти, несмотря на неодинаковые параметры.
+

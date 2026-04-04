@@ -1,0 +1,65 @@
+---
+title: "SIR model: threshold study"
+description: "Threshold study for the graph-based SIR model"
+lang: ru-RU
+jupyter: julia-1.12
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: false
+execute:
+  cache: true
+---
+
+# SIR model: threshold study
+
+Этот literate-скрипт исследует эпидемический порог в агентной SIR-модели.
+Мы хотим найти минимальное значение `beta`, при котором средний пик
+инфицированных превышает `5%` популяции.
+
+```{julia}
+using DrWatson
+@quickactivate "lab_04_models"
+
+ENV["GKSwstype"] = "100"
+
+include(srcdir("sir_analysis.jl"))
+```
+
+## Плотное сканирование коэффициента заражения
+
+В отличие от базового `sir_scan_beta.jl` здесь используется более мелкий шаг
+по `beta`, чтобы аккуратно сравнить наблюдаемый порог с теоретическим
+условием `R0 = 1`.
+
+```{julia}
+threshold_df, threshold_grouped, threshold_summary = threshold_study()
+threshold_grouped
+```
+
+## График порога
+
+На графике показываются:
+- средний пик инфицированных;
+- эмпирический критерий эпидемии `5%`;
+- теоретический порог;
+- наблюдаемый порог по результатам моделирования.
+
+```{julia}
+threshold_plot = plot_threshold_study(
+    threshold_grouped;
+    epidemic_threshold = threshold_summary.epidemic_threshold,
+    theoretical_beta = threshold_summary.theoretical_beta,
+    observed_beta = threshold_summary.observed_beta,
+)
+threshold_plot
+```
+
+## Выводы
+
+1. Теоретический и наблюдаемый пороги не совпадают буквально.
+2. В агентной стохастической модели вспышка должна не только начаться,
+   но и превысить критерий `5%`.
+3. Поэтому эмпирический порог получается выше классической оценки `R0 = 1`.
+
