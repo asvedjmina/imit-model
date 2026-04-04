@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2026-04-04
+
+### Added
+- Проект DrWatson `lab_04_models` для лабораторной работы №4
+- Агентная SIR-модель на Agents.jl для трёх городов
+- Базовый сценарий, сканирование `beta`, исследование миграции и сценарный анализ
+- Дополнительные эксперименты: порог эпидемии, гетерогенность, карантин и оптимизация
+- Шесть literate-скриптов с генерацией `.jl`, `.ipynb`, `.qmd`
+- Выполненные Jupyter notebooks для всех сценариев лабораторной работы №4
+- Отчёт по лабораторной работе №4 (Quarto, PDF, DOCX)
+- Презентация по лабораторной работе №4 (Beamer, reveal.js)
+
+### Changed
+- Обновлены библиография и LaTeX-преамбула отчёта для корректной сборки и ссылок
+- Оптимизационный сценарий приведён к многокритериальной постановке через `BlackBoxOptim`
+
 ## [3.0.0] - 2026-03-20
 
 ### Added
