@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2026-04-17
+
+### Added
+- Проект DrWatson `lab_05_models` для лабораторной работы №5
+- Реализация задачи обедающих философов в аппарате сетей Петри
+- Две модели: классическая сеть и сеть с арбитром
+- Базовый и параметрический literate-сценарии с генерацией `.jl`, `.ipynb`, `.qmd`
+- Выполненные Jupyter notebooks для базового и параметрического сценариев
+- Таблицы и графики по deadlock-анализу, детерминированному сравнению и параметрическому исследованию
+- Отчёт по лабораторной работе №5 (Quarto, PDF, DOCX)
+- Презентация по лабораторной работе №5 (Beamer, reveal.js)
+- Релизные материалы и архив `lab05.zip`
+
+### Changed
+- Генератор `lab05` переведён на сохранение выполненных notebook
+- Обновлены релизные заметки и `CHANGELOG.md` для публикации `lab05`
+
 ## [4.0.0] - 2026-04-04
 
 ### Added
