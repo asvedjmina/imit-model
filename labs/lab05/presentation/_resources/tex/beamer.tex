@@ -1,3 +1,8 @@
+\usepackage{fontspec}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+  commandchars=\\\{\},
+  fontsize=\scriptsize
+}
 \IfFileExists{plex-otf.sty}{
   %% Full TeXlive
   % \usepackage[%
@@ -8,6 +13,9 @@
   %% TinyTeX
   \usepackage{libertine}
 }
+\IfFontExistsTF{DejaVu Sans Mono}{
+  \setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+}{}
 
 %%% Load theme
 % https://deic.uab.cat/~iblanes/beamer_gallery/

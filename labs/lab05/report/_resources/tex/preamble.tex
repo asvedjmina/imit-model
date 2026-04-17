@@ -1,6 +1,11 @@
 \usepackage{indentfirst}
 \usepackage{float}
+\usepackage{fontspec}
 \floatplacement{figure}{H}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+  commandchars=\\\{\},
+  fontsize=\small
+}
 \IfFileExists{plex-otf.sty}{
   %% Full TeXlive
   \usepackage[
@@ -13,3 +18,6 @@
   %% TinyTeX
   \usepackage{libertine}
 }
+\IfFontExistsTF{DejaVu Sans Mono}{
+  \setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+}{}

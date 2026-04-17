@@ -1,0 +1,11 @@
+model,philosophers,deadlock_probability,mean_deadlock_time,mean_final_eaters,mean_final_hungry,mean_events
+classic,3,1.0,2.3199689183946193,0.0,3.0,6.1875
+arbiter,3,0.0,,0.5,1.375,87.875
+classic,4,1.0,4.622735569302683,0.0,4.0,10.5625
+arbiter,4,0.0,,0.375,2.1875,95.0
+classic,5,1.0,8.955344539844086,0.0,5.0,20.75
+arbiter,5,0.0,,0.625,3.25,97.875
+classic,6,1.0,4.321562484894056,0.0,6.0,13.875
+arbiter,6,0.0,,0.5,4.3125,94.1875
+classic,7,1.0,5.99872599217159,0.0,7.0,18.0625
+arbiter,7,0.0,,0.625,5.0625,97.8125

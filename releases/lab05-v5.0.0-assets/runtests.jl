@@ -1,0 +1,41 @@
+using DataFrames
+using DrWatson
+using Random
+using Test
+
+@quickactivate "lab_05_models"
+
+include(srcdir("DiningPhilosophers.jl"))
+using .DiningPhilosophers
+
+@testset "lab_05_models tests" begin
+    net_classic, u0_classic, _ = build_classical_network(5)
+    @test length(u0_classic) == 20
+    @test sum(u0_classic[1:5]) == 5
+    @test sum(u0_classic[16:20]) == 5
+    @test !detect_deadlock(net_classic, u0_classic)
+    @test length(enabled_transitions(net_classic, u0_classic)) == 5
+
+    dead_marking = zeros(Float64, 20)
+    dead_marking[6:10] .= 1.0
+    @test detect_deadlock(net_classic, dead_marking)
+
+    net_arbiter, u0_arbiter, _ = build_arbiter_network(5)
+    @test u0_arbiter[end] == 4.0
+    @test !detect_deadlock(net_arbiter, u0_arbiter)
+
+    df = simulate_stochastic(net_classic, u0_classic, 5.0; rng = MersenneTwister(42))
+    @test nrow(df) >= 2
+    @test df.time[1] == 0.0
+
+    raw = parameter_scan(3:4; seeds = 1:2, tmax = 10.0)
+    summary = summarize_parameter_scan(raw)
+    @test nrow(raw) == 8
+    expected_names = [
+        :model,
+        :philosophers,
+        :deadlock_probability,
+        :mean_deadlock_time,
+    ]
+    @test all(name in Symbol.(names(summary)) for name in expected_names)
+end

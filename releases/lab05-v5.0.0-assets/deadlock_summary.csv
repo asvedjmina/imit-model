@@ -1,0 +1,3 @@
+model,deadlock,deadlock_time,final_total_eaters
+classic,true,0.6297042597448348,0.0
+arbiter,false,,1.0
