@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - 2026-04-24
+
+### Added
+- Проект DrWatson `lab_06_models` для лабораторной работы №6
+- Реализация модели SIR в аппарате сетей Петри
+- Модуль `SIRPetri.jl` с детерминированным и стохастическим симуляторами
+- Базовый и параметрический literate-сценарии с генерацией `.jl`, `.ipynb`, `.qmd`
+- Выполненные Jupyter notebooks для обоих сценариев лабораторной работы №6
+- Таблицы, графики и GIF-анимация по базовому и параметрическому анализу
+- Отчёт по лабораторной работе №6 (Quarto, PDF, DOCX)
+- Презентация по лабораторной работе №6 (Beamer, reveal.js)
+- Релизные материалы и архив `lab06.zip`
+
+### Changed
+- Обновлены `release-notes.md` и подготовлены отдельные пакеты артефактов для GitHub и GitVerse
+
 ## [5.0.0] - 2026-04-17
 
 ### Added
