@@ -17,7 +17,7 @@ format:
   ### Pdf output format
   beamer:
     pdf-engine: xelatex
-    toc: true
+    toc: false
     toc-title: Содержание
     number-sections: true
     colorlinks: false

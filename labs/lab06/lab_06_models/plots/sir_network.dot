@@ -1,0 +1,16 @@
+digraph SIR {
+  rankdir=LR;
+  node [shape=circle, style=filled, fillcolor=lightblue];
+  S;
+  I;
+  R;
+  node [shape=box, style=filled, fillcolor=orange];
+  infection [label="infection\nbeta"];
+  recovery [label="recovery\ngamma"];
+  S -> infection;
+  I -> infection;
+  infection -> I;
+  infection -> I;
+  I -> recovery;
+  recovery -> R;
+}
