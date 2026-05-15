@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0] - 2026-05-15
+
+### Added
+- Проект DrWatson `lab_07_models` для лабораторной работы №7
+- Реализация дискретно-событийной модели многоканальной очереди `M/M/c`
+- Реализация модели Росса для ремонтируемой системы с резервом и несколькими ремонтниками
+- Базовый и параметрический literate-сценарии с генерацией `.jl`, `.ipynb`, `.qmd`
+- Выполненные Jupyter notebooks для двух сценариев лабораторной работы №7
+- Таблицы и графики по базовым и параметрическим прогонам `M/M/c` и модели Росса
+- Отчёт по лабораторной работе №7 (Quarto, PDF, DOCX)
+- Презентация по лабораторной работе №7 (Beamer, reveal.js)
+- Релизные материалы и архив `lab07.zip`
+
+### Changed
+- Обновлены `release-notes.md` и подготовлены отдельные пакеты артефактов для GitHub и GitVerse
+
 ## [6.0.0] - 2026-04-24
 
 ### Added
