@@ -1,0 +1,2 @@
+machines,spares,repairers,analytic_crash_time,sim_mean_crash_time,sim_std_crash_time,mean_utilization,mean_queue_length
+10,3,2,46539.99999996686,47104.03232798336,39113.40526475015,0.0498882697188446,0.0002036984512928107
